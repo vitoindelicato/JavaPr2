@@ -9,10 +9,10 @@ public interface User {
     public List<Post> getPosts();
 
     //EFFECTS: ritorna this.followMe
-    public List<MyUser> getFollowMe();
+    public List<String> getFollowMe();
 
     //EFFECTS: ritorna this.iFollow
-    public List<MyUser> getIFollow();
+    public List<String> getIFollow();
 
     //REQUIRES: post != null
     //THROWS: IllegalAction se un utente mette like a se stesso, o se mette like due volte allo stesso post(propagazione), NullPointerException se post == null

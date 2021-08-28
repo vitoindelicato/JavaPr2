@@ -2,11 +2,11 @@ import java.util.*;
 
 public class MyUser implements User{
 
-    private static List<MyUser> userList = new ArrayList<MyUser>();
+    private static List<String> userList = new ArrayList<String>();
     private String username;
     private List<Post> createdPosts;
-    private List<MyUser> iFollow; 
-    private List<MyUser> followMe; 
+    private List<String> iFollow; 
+    private List<String> followMe; 
 
     /*
     OVERVIEW: tipo di dato che rappresenta un user di un social network, con tutti i suoi attributi:
@@ -48,17 +48,20 @@ public class MyUser implements User{
             throw new InvalidUsername("Nome utente non valido!");
         }
 
-        for(MyUser iterator : userList){//purtroppo devo accedere ogni elemento di tipo user per verificarne il campo username
+        /*for(MyUser iterator : userList){//purtroppo devo accedere ogni elemento di tipo user per verificarne il campo username
             if(iterator.getUsername().equals(username)){
                 throw new InvalidUsername("questa username non è disponibile\t utente non creato");
             }
+        }*/
+        if (userList.contains(username)){
+            throw new InvalidUsername("Username già utilizzata\t utente non creato");
         }
         this.username = username;
         this.createdPosts = new Vector<Post>();
-        this.iFollow = new Vector<MyUser>();
-        this.followMe = new Vector<MyUser>();
+        this.iFollow = new Vector<String>();
+        this.followMe = new Vector<String>();
         MicroBlog.registerUser(this); //registro automaticamente un utente sulla struttura statica di SocialNetwork al momento della sua creazione
-        userList.add(this);//aggiungo il nuovo utente alla variabile di istanza della classe
+        userList.add(this.getUsername());//aggiungo il nuovo utente alla variabile di istanza della classe
 
     }
 
@@ -74,11 +77,11 @@ public class MyUser implements User{
         return this.createdPosts;
     }
 
-    public List<MyUser> getFollowMe(){
+    public List<String> getFollowMe(){
         return this.followMe;
     }
 
-    public List<MyUser> getIFollow(){
+    public List<String> getIFollow(){
         return this.iFollow;
     }
 
@@ -87,7 +90,7 @@ public class MyUser implements User{
         this.createdPosts.add(post);
     }
 
-    public static List<MyUser> getUserList() {
+    public static List<String> getUserList() {
         return userList;
     }
 
@@ -104,7 +107,7 @@ public class MyUser implements User{
         else if(this.equals(post.getAuthor())){
             throw new IllegalAction("Un utente non può mettersi like da solo!");
         }
-        else if(!iFollow.contains(post.getAuthor())){ //se metto like ad un post di cui non seguo l'autore, lo seguiro in automatico
+        else if(!iFollow.contains(post.getAuthorUsername())){ //se metto like ad un post di cui non seguo l'autore, lo seguiro in automatico
             follow(post.getAuthor());
         }
         post.updateLikes(this);
@@ -117,13 +120,13 @@ public class MyUser implements User{
             throw new IllegalAction("Un utente non può seguirsi da solo!");
         }
 
-        if(this.iFollow.contains(user)){
+        if(this.iFollow.contains(user.getUsername())){
             throw new IllegalAction("Non è consentito seguire un utente più di una volta");
         }
         else{
-            this.iFollow.add(user);
+            this.iFollow.add(user.getUsername());
             MicroBlog.UpdateMap(this.getUsername(), user.getUsername());
-            user.followMe.add(this);
+            user.followMe.add(this.getUsername());
         }
         
     }
@@ -133,13 +136,13 @@ public class MyUser implements User{
     //REQUIRES: lst != null, forAll i < lst.size() lst[i] != null
     //THROWS: NullPointerException se lst o un suo elemento == null
     //EFFECTS: data una lista di User, ritorna un set con i loro usernames
-    public static Set<String> getUsernames(List<MyUser>lst){
+    public static Set<String> getUsernames(List<String>lst){
         Set<String> result = new HashSet<String>();
-        for(MyUser iterator : lst){
+        for(String iterator : lst){
             if(iterator == null){
                 throw new NullPointerException();
             }
-            result.add(iterator.getUsername());
+            result.add(iterator);
         }
         return result;
     }
@@ -152,14 +155,15 @@ public class MyUser implements User{
     }
 
     //REQUIRES: username != null
-    //EFFECTS: data una stringa contenente una username ritorna l'oggetto 
-    public static MyUser stringToUser(String username){
+    //EFFECTS: data una stringa contenente una username ritorna l'oggetto
+
+    /*public static MyUser stringToUser(String username){
         for(MyUser iterator : userList){
             if(username.equals(iterator.getUsername())){
                 return iterator;
             }
         }
         return null;
-    }
+    }*/
 
 }

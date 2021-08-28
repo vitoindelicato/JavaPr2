@@ -79,9 +79,12 @@ public class MicroBlog implements SocialNetwork{
     
     public Set<String> getMentionedUsers(){ //vedo tutti gli user della rete, se hanno scritto almeno un post li aggiungo al set
         Set<String> result = new HashSet<String>();
-        for(MyUser iterator : MyUser.getUserList()){
-            if(iterator.getPosts().size()>0){
-                result.add(iterator.getUsername());
+        for(Post iterator : postList){
+            if (iterator == null){
+                throw new NullPointerException();
+            }
+            if(!result.contains(iterator.getAuthorUsername())){
+                result.add(iterator.getAuthorUsername());
             }
         }
         return result;
@@ -111,8 +114,13 @@ public class MicroBlog implements SocialNetwork{
             throw  new NullPointerException();
         }
         List<Post> result = new ArrayList<Post>();
-        MyUser iterator = MyUser.stringToUser(username);
-        result = iterator.getPosts();
+        //MyUser iterator = MyUser.stringToUser(username);
+        //result = iterator.getPosts();
+        for (Post iterator : postList){
+            if(iterator.getAuthorUsername().equals(username)){
+                result.add(iterator);
+            }
+        }
         return result;
 
     }
