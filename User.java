@@ -20,7 +20,7 @@ public interface User {
             //this.iFollow se metto like ad un autore che non seguo,
             // post.getUser().followMe per la stessa situazione, aggiornando la lista followMe dell'autore del post
     //EFFECTS: realizza l'azione di mettere like, e ne gestisce tutte le varie conseguenze
-    public void placeLike(Post post)throws IllegalAction, NullPointerException;
+    //public void placeLike(Post post)throws IllegalAction, NullPointerException;
 
     //REQUIRES: user != null
     //THROWS: IllegalAction se un utente segue se stesso, o se segue due volte lo stesso user, NullPointerException se user == null
@@ -28,7 +28,7 @@ public interface User {
                 //user.followMe
                 // SocialNetwork.sn
     //EFFECTS: realizza l'azione di seguire un utente, ne gestisce le varie conseguenze
-    public void follow(MyUser user) throws IllegalAction;
+    //public void follow(MyUser user) throws IllegalAction;
     
 
     //REQUIRES: post != null

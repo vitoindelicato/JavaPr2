@@ -3,9 +3,9 @@ import java.util.*;
 public class MicroBlog implements SocialNetwork{
 
     private static List<Post> postList = null;
-    private static Map<String, Set<String>> sn = null;
+    private /*static*/ Map<String, Set<String>> sn = null;
 
-    public static Map<String, Set<String>> getSn(){return sn;}
+    public /*static*/ Map<String, Set<String>> getSn(){return sn;}
     public static List<Post> getPostList(){return postList;}
 
 
@@ -172,8 +172,8 @@ public class MicroBlog implements SocialNetwork{
     //REQUIRES: user != null
     //MODIFIES: MicroBlog.sn
     //EFFECTS: Inserisce un utente nella map usata come struttura di implementazione, la funzione viene chiamata alla creazione di un nuovo utente, il valore sarà una lista vuota
-    public static void registerUser(MyUser user){//ogni nuovo user viene inserito nella map come chiave, ed una lista vuota come set
-        sn.put(user.getUsername(), MyUser.getUsernames(user.getIFollow()));
+    public /*static*/ void registerUser(MyUser user){//ogni nuovo user viene inserito nella map come chiave, ed una lista vuota come set
+        this.getSn().put(user.getUsername(), MyUser.getUsernames(user.getIFollow()));
       
     }
 
@@ -187,18 +187,54 @@ public class MicroBlog implements SocialNetwork{
     //REQUIRES: user != null followed != null
     //MODIFIES: MicroBlog.sn
     //EFFECTS:  Aggiorna la map, inserendo nel set un utente seguito dal parametro user
-    public static void UpdateMap(String user, String followed){
-        if(sn.containsKey(user)){
-            Set<String> tmp = sn.get(user);
+    public /*static*/ void UpdateMap(String follower, String followed){
+        if(this.getSn().containsKey(follower)){
+            Set<String> tmp = this.getSn().get(follower);
             tmp.add(followed);
         }
         else{
             Set<String> tmp = new HashSet<String>();
             tmp.add(followed);
-            sn.put(user, tmp);
+            sn.put(follower, tmp);
 
         }
 
     }
+
+
+    //GESTIONE LIKES
+    public void placeLike(Post post, MyUser user)throws IllegalAction, NullPointerException{
+        if(post == null){
+            throw new NullPointerException("Post non valido!");
+        }
+        else if(user.equals(post.getAuthor())){
+            throw new IllegalAction("Un utente non può mettersi like da solo!");
+        }
+        else if(!user.getIFollow().contains(post.getAuthorUsername())){ //se metto like ad un post di cui non seguo l'autore, lo seguiro in automatico
+            this.follow(user, post.getAuthor());
+        }
+        post.updateLikes(user); //questa funzione aggiunge l'username del parametro user alla lista 'likes'
+
+    }
+
+
+    //AZIONE DI FOLLOW
+
+    public void follow(MyUser follower, MyUser followed)throws IllegalAction{
+        if(follower.equals(followed)){
+            throw new IllegalAction("Un utente non può seguirsi da solo!");
+        }
+
+        if(follower.getIFollow().contains(followed.getUsername())){
+            throw new IllegalAction("Non è consentito seguire un utente più di una volta");
+        }
+        else{
+            follower.getIFollow().add(followed.getUsername());
+            this.UpdateMap(follower.getUsername(), followed.getUsername());
+            followed.getFollowMe().add(follower.getUsername());
+        }
+        
+    }
+
 
 }

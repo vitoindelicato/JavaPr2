@@ -58,18 +58,18 @@ public class Tests {
         }
 
          try{
-            usr.follow(usr); //mi seguo da solo
+            network.follow(usr, usr); //mi seguo da solo
         }
         catch (Exception e){
             System.out.println(e.toString() + " ---> Test Ecxception IllegalAction passed!\n");
         }
 
-        usr.follow(usr2);//Giorgio segue Alessandro
-        usr.follow(usr3);//Giorgio segue Maria
-        usr.follow(usr4);//Giorgio segue Angelica
+        network.follow(usr, usr2);//Giorgio segue Alessandro
+        network.follow(usr, usr3);//Giorgio segue Maria
+        network.follow(usr, usr4);//Giorgio segue Angelica
 
         try{
-            usr.follow(usr3);
+            network.follow(usr, usr3);
         }
         catch (Exception e){
             System.out.println(e.toString() + " ---> Test Ecxception IllegalAction passed!\n");
@@ -81,9 +81,9 @@ public class Tests {
         
 
         //System.out.println("Usr2.getFollowMe: "+ usr2.getFollowMe());
-        usr.placeLike(pst2);
+        network.placeLike(pst2, usr);
 
-        usr3.placeLike(pst2); //cosi Maria segue Alessandro per la regola dell'autofollow
+        network.placeLike(pst2, usr3); //cosi Maria segue Alessandro per la regola dell'autofollow
         //System.out.println("Us2r.getFollowMe: "+ usr2.getFollowMe());
 
         List<Post> lst = new ArrayList<Post>();

@@ -60,7 +60,8 @@ public class MyUser implements User{
         this.createdPosts = new Vector<Post>();
         this.iFollow = new Vector<String>();
         this.followMe = new Vector<String>();
-        MicroBlog.registerUser(this); //registro automaticamente un utente sulla struttura statica di SocialNetwork al momento della sua creazione
+        //MicroBlog.registerUser(this); //registro automaticamente un utente sulla struttura statica di SocialNetwork al momento della sua creazione
+        //EDIT: DOPO LA MODIFICA DEL PROGETTO, LA REGISTRAZIONE DI UN UTENTE VIENE EFFETTUATA MANUALMENTE NEI TEST
         userList.add(this.getUsername());//aggiungo il nuovo utente alla variabile di istanza della classe
 
     }
@@ -100,7 +101,7 @@ public class MyUser implements User{
 
     //other functions ===> Cosa può fare un user?
 
-    public void placeLike(Post post)throws IllegalAction, NullPointerException{
+    /*public void placeLike(Post post)throws IllegalAction, NullPointerException{
         if(post == null){
             throw new NullPointerException("Post non valido!");
         }
@@ -112,10 +113,10 @@ public class MyUser implements User{
         }
         post.updateLikes(this);
 
-    }
+    }*/
 
 
-    public void follow(MyUser user)throws IllegalAction{
+    /*public void follow(MyUser user)throws IllegalAction{
         if(this.equals(user)){
             throw new IllegalAction("Un utente non può seguirsi da solo!");
         }
@@ -129,7 +130,7 @@ public class MyUser implements User{
             user.followMe.add(this.getUsername());
         }
         
-    }
+    }*/
 
 
 

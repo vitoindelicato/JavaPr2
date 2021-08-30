@@ -24,7 +24,7 @@ public class Post{
     private MyUser author;
     private String text;
     private Date timestamp;
-    private List<MyUser> likes;
+    private List<String> likes;
 
 
     //REQUIRES: author != null, 0<text.length()<=140
@@ -44,7 +44,7 @@ public class Post{
         this.author = author; 
         this.text = text;
         this.timestamp = new Date();
-        this.likes = new Vector<MyUser>();
+        this.likes = new Vector<String>();
         MicroBlog.registerPost(this);
         this.author.updatePostList(this);
     }
@@ -87,7 +87,7 @@ public class Post{
     //other functions
 
     //EFFECTS: ritorna la lista degli user che hanno messo like al post
-    public List<MyUser> getLikes(){
+    public List<String> getLikes(){
         return this.likes;
     }
 
@@ -99,10 +99,10 @@ public class Post{
         if(user == null){
             throw new NullPointerException("Un Utente non valido ha messo like");
         }
-        else if(likes.contains(user)){
+        else if(likes.contains(user.getUsername())){
             throw new IllegalAction("Non si può mettere like due volte allo stesso post");
         }
-        likes.add(user);
+        likes.add(user.getUsername());
     }
 
     public String toString(){
