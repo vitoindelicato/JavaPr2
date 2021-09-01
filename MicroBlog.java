@@ -22,10 +22,10 @@ public class MicroBlog implements SocialNetwork{
     
     //EFFECTS: crea oggetto MicroBlog e ne inizializza i campi
     public MicroBlog(){
-        postList = new ArrayList<Post>();
-        sn = new HashMap<String, Set<String>>();
+        this.postList = new ArrayList<Post>();
+        this.sn = new HashMap<String, Set<String>>();
       
-    } //Creo un solo oggetto di tipo SocialNetwork, da usare per chiamare le funzioni, la classe avrà strutture statiche di supporto per rendere più elegante e meno complesso il codice
+    } 
 
     
 
