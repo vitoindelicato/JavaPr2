@@ -45,7 +45,7 @@ public class Post{
         this.text = text;
         this.timestamp = new Date();
         this.likes = new Vector<String>();
-        MicroBlog.registerPost(this);
+        //MicroBlog.registerPost(this); ---> questo andrà fatto manualmente per ogni post nei test
         this.author.updatePostList(this);
     }
 

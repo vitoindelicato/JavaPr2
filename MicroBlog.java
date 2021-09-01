@@ -2,11 +2,11 @@ import java.util.*;
 
 public class MicroBlog implements SocialNetwork{
 
-    private static List<Post> postList = null;
-    private /*static*/ Map<String, Set<String>> sn = null;
+    private List<Post> postList = null;
+    private Map<String, Set<String>> sn = null;
 
-    public /*static*/ Map<String, Set<String>> getSn(){return sn;}
-    public static List<Post> getPostList(){return postList;}
+    public Map<String, Set<String>> getSn(){return sn;}
+    public List<Post> getPostList(){return this.postList;}
 
 
      /*
@@ -170,24 +170,28 @@ public class MicroBlog implements SocialNetwork{
 
 
     //REQUIRES: user != null
-    //MODIFIES: MicroBlog.sn
+    //MODIFIES: this.sn
     //EFFECTS: Inserisce un utente nella map usata come struttura di implementazione, la funzione viene chiamata alla creazione di un nuovo utente, il valore sarà una lista vuota
-    public /*static*/ void registerUser(MyUser user){//ogni nuovo user viene inserito nella map come chiave, ed una lista vuota come set
-        this.getSn().put(user.getUsername(), MyUser.getUsernames(user.getIFollow()));
+   // public void registerUser(MyUser user){//ogni nuovo user viene inserito nella map come chiave, ed una lista vuota come set
+    //    this.getSn().put(user.getUsername(), MyUser.getUsernames(user.getIFollow()));
       
-    }
+    //}
 
     //REQUIRES: post != null
-    //MODIFIES: MicroBlog.postList
-    //EFFECTS:  aggiunge un nuovo post alla struttura di MicroBlog 
-    public static void registerPost(Post post){
-        postList.add(post);
+    //MODIFIES: this.postList, this.sn
+    //EFFECTS:  aggiunge un nuovo post alla struttura di MicroBlog, se l'utente che ha creato il post non è nella Map viene aggiunto
+    public void registerPost(Post post){
+        this.postList.add(post);
+        if(!this.getSn().containsKey(post.getAuthorUsername())){
+            this.addEntryMap(post.getAuthorUsername());
+        }
+
     }
 
     //REQUIRES: user != null followed != null
     //MODIFIES: MicroBlog.sn
     //EFFECTS:  Aggiorna la map, inserendo nel set un utente seguito dal parametro user
-    public /*static*/ void UpdateMap(String follower, String followed){
+    public void UpdateMap(String follower, String followed){
         if(this.getSn().containsKey(follower)){
             Set<String> tmp = this.getSn().get(follower);
             tmp.add(followed);
@@ -200,9 +204,20 @@ public class MicroBlog implements SocialNetwork{
         }
 
     }
+    
+    public void addEntryMap(String username){
+        Set<String> tmp = new HashSet<String>();
+            sn.put(username, tmp);
+
+    }
 
 
-    //GESTIONE LIKES
+    //REQUIRES: post != null, user != null
+    //THROWS: IllegalAction se un utente mette like a se stesso, o se mette like due volte allo stesso post(propagazione), NullPointerException se post == null
+    //MODIFIES: post.likes, 
+            //user.iFollow se metto like ad un autore che non seguo,
+            // post.getUser().followMe per la stessa situazione, aggiornando la lista followMe dell'autore del post
+    //EFFECTS: realizza l'azione di mettere like, e ne gestisce tutte le varie conseguenze
     public void placeLike(Post post, MyUser user)throws IllegalAction, NullPointerException{
         if(post == null){
             throw new NullPointerException("Post non valido!");
@@ -218,9 +233,16 @@ public class MicroBlog implements SocialNetwork{
     }
 
 
-    //AZIONE DI FOLLOW
-
+    //REQUIRES: follower != null, followed != null
+    //THROWS: IllegalAction se un utente segue se stesso, o se segue due volte lo stesso user, NullPointerException se user == null
+    //MODIFIES: //follower.iFollow
+                //followed.followMe
+                // SocialNetwork.sn
+    //EFFECTS: realizza l'azione di seguire un utente, ne gestisce le varie conseguenze
     public void follow(MyUser follower, MyUser followed)throws IllegalAction{
+        if(follower == null || followed == null){
+            throw new NullPointerException();
+        }
         if(follower.equals(followed)){
             throw new IllegalAction("Un utente non può seguirsi da solo!");
         }

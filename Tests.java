@@ -30,17 +30,23 @@ public class Tests {
             
             usr = new MyUser("Giorgio");
             pst = new Post(usr, "Ciao! Sono Giorgio!");
+            network.registerPost(pst);
 
             usr2 = new MyUser("Alessandro");
             pst2 = new Post(usr2, "Ciao! Sono Alessandro");
+            network.registerPost(pst2);
 
             usr3 = new MyUser("Maria");
             pst3 = new Post(usr3, "Ciao! sono Maria");
+            network.registerPost(pst3);
 
             usr4 = new MyUser("Angelica");
             pst4 = new Post(usr4, "Ciao! Sono Angelica");
+            network.registerPost(pst4);
 
             usr6 = new MyUser("Tommaso");
+            System.out.println(network.getSn() + " ---> Printing network.sn1\n");
+
 
             usr5 = new MyUser(""); //Dovrebbe tirare eccezione InvalidUsername
             pst5 = new Post(usr5, "Io sono nessuno");//questo post non verrà mai creato
@@ -67,6 +73,8 @@ public class Tests {
         network.follow(usr, usr2);//Giorgio segue Alessandro
         network.follow(usr, usr3);//Giorgio segue Maria
         network.follow(usr, usr4);//Giorgio segue Angelica
+        System.out.println(network.getSn() + " ---> Printing network.sn2\n");
+
 
         try{
             network.follow(usr, usr3);
@@ -85,6 +93,9 @@ public class Tests {
 
         network.placeLike(pst2, usr3); //cosi Maria segue Alessandro per la regola dell'autofollow
         //System.out.println("Us2r.getFollowMe: "+ usr2.getFollowMe());
+
+        System.out.println(network.getSn() + " ---> Printing network.sn3\n");
+
 
         List<Post> lst = new ArrayList<Post>();
         lst.add(pst);

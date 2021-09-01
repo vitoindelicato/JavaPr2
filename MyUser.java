@@ -48,11 +48,6 @@ public class MyUser implements User{
             throw new InvalidUsername("Nome utente non valido!");
         }
 
-        /*for(MyUser iterator : userList){//purtroppo devo accedere ogni elemento di tipo user per verificarne il campo username
-            if(iterator.getUsername().equals(username)){
-                throw new InvalidUsername("questa username non è disponibile\t utente non creato");
-            }
-        }*/
         if (userList.contains(username)){
             throw new InvalidUsername("Username già utilizzata\t utente non creato");
         }
@@ -99,38 +94,8 @@ public class MyUser implements User{
     
 
 
-    //other functions ===> Cosa può fare un user?
 
-    /*public void placeLike(Post post)throws IllegalAction, NullPointerException{
-        if(post == null){
-            throw new NullPointerException("Post non valido!");
-        }
-        else if(this.equals(post.getAuthor())){
-            throw new IllegalAction("Un utente non può mettersi like da solo!");
-        }
-        else if(!iFollow.contains(post.getAuthorUsername())){ //se metto like ad un post di cui non seguo l'autore, lo seguiro in automatico
-            follow(post.getAuthor());
-        }
-        post.updateLikes(this);
-
-    }*/
-
-
-    /*public void follow(MyUser user)throws IllegalAction{
-        if(this.equals(user)){
-            throw new IllegalAction("Un utente non può seguirsi da solo!");
-        }
-
-        if(this.iFollow.contains(user.getUsername())){
-            throw new IllegalAction("Non è consentito seguire un utente più di una volta");
-        }
-        else{
-            this.iFollow.add(user.getUsername());
-            MicroBlog.UpdateMap(this.getUsername(), user.getUsername());
-            user.followMe.add(this.getUsername());
-        }
-        
-    }*/
+    
 
 
 
@@ -155,16 +120,6 @@ public class MyUser implements User{
         return message;
     }
 
-    //REQUIRES: username != null
-    //EFFECTS: data una stringa contenente una username ritorna l'oggetto
-
-    /*public static MyUser stringToUser(String username){
-        for(MyUser iterator : userList){
-            if(username.equals(iterator.getUsername())){
-                return iterator;
-            }
-        }
-        return null;
-    }*/
+    
 
 }
