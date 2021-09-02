@@ -11,6 +11,7 @@ public interface User {
     //EFFECTS: ritorna this.iFollow
     public List<String> getIFollow();
 
+
     public String toString();
 
 

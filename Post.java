@@ -45,7 +45,6 @@ public class Post{
         this.text = text;
         this.timestamp = new Date();
         this.likes = new Vector<String>();
-        //MicroBlog.registerPost(this); ---> questo andrà fatto manualmente per ogni post nei test
     }
 
 
@@ -88,20 +87,6 @@ public class Post{
     //EFFECTS: ritorna la lista degli user che hanno messo like al post
     public List<String> getLikes(){
         return this.likes;
-    }
-
-    //REQUIRES: user != null
-    //THROWS: NullPointerException se user == null, IllegalAction se user ha già messo like al post
-    //MODIFIES: this.likes
-    //EFFECTS: se un utente mette like al post, questo verrà aggiunto alla lista degli utenti che hanno messo like
-    public void updateLikes(MyUser user)throws NullPointerException, IllegalAction{
-        if(user == null){
-            throw new NullPointerException("Un Utente non valido ha messo like");
-        }
-        else if(likes.contains(user.getUsername())){
-            throw new IllegalAction("Non si può mettere like due volte allo stesso post");
-        }
-        likes.add(user.getUsername());
     }
 
     public String toString(){
