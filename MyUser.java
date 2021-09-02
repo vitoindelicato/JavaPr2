@@ -8,7 +8,6 @@ public class MyUser implements User{
 
     /*
     OVERVIEW: tipo di dato che rappresenta un user di un social network, con tutti i suoi attributi:
-    userList = Lista statica che memorizza TUTTI gli utenti creati
 
     username = username idenitificativo dell'utente
     iFollow = struttura di supporto che memorizza tutti gli utenti che this segue

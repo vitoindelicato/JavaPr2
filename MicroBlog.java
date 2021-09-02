@@ -174,6 +174,7 @@ public class MicroBlog implements SocialNetwork{
     public void registerPost(Post post){
         this.postList.add(post);
         if(!this.getSn().containsKey(post.getAuthorUsername())){
+            //fondamentalmente se un nuovo utente scrive il suo primo post, viene aggiunto alla map del social network
             this.addEntryMap(post.getAuthorUsername());
         }
 
@@ -196,7 +197,8 @@ public class MicroBlog implements SocialNetwork{
 
     }
 
-    
+    //MODIFIES : this.sn
+    //EFFECTS: Aggiorna la Map inserendo una nuova entry con una chiave e un set vuoto corrispondente
     public void addEntryMap(String username){
         Set<String> tmp = new HashSet<String>();
             sn.put(username, tmp);
@@ -208,7 +210,7 @@ public class MicroBlog implements SocialNetwork{
     //THROWS: IllegalAction se un utente mette like a se stesso, o se mette like due volte allo stesso post(propagazione), NullPointerException se post == null
     //MODIFIES: post.likes, 
             //user.iFollow se metto like ad un autore che non seguo,
-            // post.getUser().followMe per la stessa situazione, aggiornando la lista followMe dell'autore del post
+            //post.getUser().followMe per la stessa situazione, aggiornando la lista followMe dell'autore del post
     //EFFECTS: realizza l'azione di mettere like, e ne gestisce tutte le varie conseguenze
     public void placeLike(Post post, MyUser user)throws IllegalAction, NullPointerException{
         if(post == null){
@@ -220,8 +222,13 @@ public class MicroBlog implements SocialNetwork{
         else if(!user.getIFollow().contains(post.getAuthorUsername())){ //se metto like ad un post di cui non seguo l'autore, lo seguiro in automatico
             this.follow(user, post.getAuthor());
         }
-        post.updateLikes(user); //questa funzione aggiunge l'username del parametro user alla lista 'likes'
 
+        if(post.getLikes().contains(user.getUsername())){
+            throw new IllegalAction("Non si può mettere like due volte allo stesso post");
+        }
+        else{
+            post.getLikes().add(user.getUsername());
+        }
     }
 
 
@@ -229,7 +236,7 @@ public class MicroBlog implements SocialNetwork{
     //THROWS: IllegalAction se un utente segue se stesso, o se segue due volte lo stesso user, NullPointerException se user == null
     //MODIFIES: //follower.iFollow
                 //followed.followMe
-                // SocialNetwork.sn
+                // this.sn
     //EFFECTS: realizza l'azione di seguire un utente, ne gestisce le varie conseguenze
     public void follow(MyUser follower, MyUser followed)throws IllegalAction{
         if(follower == null || followed == null){
