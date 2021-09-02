@@ -106,7 +106,7 @@ public class Post{
     }
 
     public String toString(){
-        String message = ("[id: " + this.id  + "  Author: " + this.author.toString() + "  Text: " + this.text +"]"/*  Timestamp:  " + this.timestamp + "]\n"*/);
+        String message = ("[id: " + this.id  + "  Author: " + this.author.toString() + "  Text: " + this.text +"  Timestamp:  " + this.timestamp + "]\n");
         return message;
     }
 
