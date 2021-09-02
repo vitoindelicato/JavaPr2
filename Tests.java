@@ -28,27 +28,27 @@ public class Tests {
 
         try {
             
-            usr = new MyUser("Giorgio");
+            usr = new MyUser("Giorgio", network);
             pst = new Post(usr, "Ciao! Sono Giorgio!");
             network.registerPost(pst);
 
-            usr2 = new MyUser("Alessandro");
+            usr2 = new MyUser("Alessandro", network);
             pst2 = new Post(usr2, "Ciao! Sono Alessandro");
             network.registerPost(pst2);
 
-            usr3 = new MyUser("Maria");
+            usr3 = new MyUser("Maria", network);
             pst3 = new Post(usr3, "Ciao! sono Maria");
             network.registerPost(pst3);
 
-            usr4 = new MyUser("Angelica");
+            usr4 = new MyUser("Angelica", network);
             pst4 = new Post(usr4, "Ciao! Sono Angelica");
             network.registerPost(pst4);
 
-            usr6 = new MyUser("Tommaso");
+            usr6 = new MyUser("Tommaso", network);
             System.out.println(network.getSn() + " ---> Printing network.sn1\n");
 
 
-            usr5 = new MyUser(""); //Dovrebbe tirare eccezione InvalidUsername
+            usr5 = new MyUser("", network); //Dovrebbe tirare eccezione InvalidUsername
             pst5 = new Post(usr5, "Io sono nessuno");//questo post non verrà mai creato
         }
         catch (Exception e){
@@ -56,7 +56,7 @@ public class Tests {
         }
         
         try{
-            usr5 = new MyUser(username); //Dovrebbe tirare eccezione NullPointerException
+            usr5 = new MyUser(username, network); //Dovrebbe tirare eccezione NullPointerException
 
         }
         catch (Exception e){
@@ -164,7 +164,11 @@ public class Tests {
 
 
         List<Post> list_comparator2 = new ArrayList<Post>();
-        list_comparator2 = usr2.getPosts();
+        for(Post iterator : network.getPostList()){
+            if (iterator.getAuthorUsername() == "Alessandro"){
+                list_comparator2.add(iterator);
+            }
+        }
 
         assert list_comparator2.equals(network.writtenBy("Alessandro")) == true : "writtenBy('Alessandro') assert! ---> writtenBy('Alessandro') Test fallito";
         System.out.println("writtenBy('Alessandro') assert superato! ---> writtenBy('Alessandro') Test passato\n");

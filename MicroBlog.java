@@ -72,7 +72,7 @@ public class MicroBlog implements SocialNetwork{
             result.add(iterator.getKey());
         }
 
-        return result; //il risultato sarà una lista di stringhe, ovvero usernames messi in ordine decrescente di followers.
+        return result; //il risultato sarà una lista di stringhe, ovvero usernames messi in ordine decrescente per numero di followers.
     }
 
 
@@ -114,8 +114,6 @@ public class MicroBlog implements SocialNetwork{
             throw  new NullPointerException();
         }
         List<Post> result = new ArrayList<Post>();
-        //MyUser iterator = MyUser.stringToUser(username);
-        //result = iterator.getPosts();
         for (Post iterator : postList){
             if(iterator.getAuthorUsername().equals(username)){
                 result.add(iterator);
@@ -169,14 +167,7 @@ public class MicroBlog implements SocialNetwork{
     // ADDITIONAL FUNCTIONS ===========================================
 
 
-    //REQUIRES: user != null
-    //MODIFIES: this.sn
-    //EFFECTS: Inserisce un utente nella map usata come struttura di implementazione, la funzione viene chiamata alla creazione di un nuovo utente, il valore sarà una lista vuota
-   // public void registerUser(MyUser user){//ogni nuovo user viene inserito nella map come chiave, ed una lista vuota come set
-    //    this.getSn().put(user.getUsername(), MyUser.getUsernames(user.getIFollow()));
-      
-    //}
-
+   
     //REQUIRES: post != null
     //MODIFIES: this.postList, this.sn
     //EFFECTS:  aggiunge un nuovo post alla struttura di MicroBlog, se l'utente che ha creato il post non è nella Map viene aggiunto
@@ -189,8 +180,8 @@ public class MicroBlog implements SocialNetwork{
     }
 
     //REQUIRES: user != null followed != null
-    //MODIFIES: MicroBlog.sn
-    //EFFECTS:  Aggiorna la map, inserendo nel set un utente seguito dal parametro user
+    //MODIFIES: this.sn
+    //EFFECTS:  Aggiorna la map, inserendo nel set un utente "follower" e aggiunge come valore un set che conterrà tutti coloro che sono seguiti da "follower" 
     public void UpdateMap(String follower, String followed){
         if(this.getSn().containsKey(follower)){
             Set<String> tmp = this.getSn().get(follower);
@@ -204,6 +195,7 @@ public class MicroBlog implements SocialNetwork{
         }
 
     }
+
     
     public void addEntryMap(String username){
         Set<String> tmp = new HashSet<String>();
